@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, throwError, map, tap, catchError } from 'rxjs';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { Observable, throwError, map, tap, catchError } from 'rxjs';
 export class AuthService {
   baseURL = 'http://localhost:4200';
   http = inject(HttpClient);
+  router = inject(Router);
 
   //el token nosotros lo utilizamos para las peticiones(autenticacion), para la autorizacion seria tema de roles
   refreshToken(): Observable<string> {
@@ -30,5 +32,8 @@ export class AuthService {
       );
   }
 
-  logOut() {}
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
