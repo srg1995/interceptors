@@ -7,6 +7,8 @@ import { AuthService } from '../services/auth-service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformid = inject(PLATFORM_ID);
   const authService = inject(AuthService);
+
+  // para evitar esto lo que tenemos que usar es HTTP only cookies que no son accesibles desde el lado del cliente
   if (isPlatformServer(platformid)) {
     return next(req);
   }

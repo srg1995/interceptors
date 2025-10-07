@@ -3,11 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError, map, tap, catchError } from 'rxjs';
 
+interface LoginResponse {
+  token: string;
+}
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  baseURL = 'http://localhost:4200';
+  baseURL = 'https://token-project-xi.vercel.app';
   http = inject(HttpClient);
   router = inject(Router);
 
@@ -30,6 +33,9 @@ export class AuthService {
           return throwError(() => new Error('Failed to refresh token'));
         })
       );
+  }
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.baseURL}/login`, { username, password });
   }
 
   logOut() {
